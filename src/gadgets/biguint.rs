@@ -64,13 +64,28 @@ pub trait CircuitBuilderBiguint<F: RichField + Extendable<D>, const D: usize> {
         z: &BigUintTarget,
     ) -> BigUintTarget;
 
+    fn _div_rem_biguint(
+        &mut self,
+        a: &BigUintTarget,
+        b: &BigUintTarget,
+        div_num_limbs: usize
+    ) -> (BigUintTarget, BigUintTarget);
+
     fn div_rem_biguint(
         &mut self,
         a: &BigUintTarget,
         b: &BigUintTarget,
     ) -> (BigUintTarget, BigUintTarget);
 
+    fn div_rem_biguint_unsafe(
+        &mut self,
+        a: &BigUintTarget,
+        b: &BigUintTarget,
+    ) -> (BigUintTarget, BigUintTarget);
+
     fn div_biguint(&mut self, a: &BigUintTarget, b: &BigUintTarget) -> BigUintTarget;
+    
+    fn div_biguint_unsafe(&mut self, a: &BigUintTarget, b: &BigUintTarget) -> BigUintTarget;
 
     fn rem_biguint(&mut self, a: &BigUintTarget, b: &BigUintTarget) -> BigUintTarget;
 }
@@ -228,18 +243,13 @@ impl<F: RichField + Extendable<D>, const D: usize> CircuitBuilderBiguint<F, D>
         self.add_biguint(&prod, z)
     }
 
-    fn div_rem_biguint(
+    fn _div_rem_biguint(
         &mut self,
         a: &BigUintTarget,
         b: &BigUintTarget,
+        div_num_limbs: usize
     ) -> (BigUintTarget, BigUintTarget) {
-        let a_len = a.limbs.len();
         let b_len = b.limbs.len();
-        let div_num_limbs = if b_len > a_len + 1 {
-            0
-        } else {
-            a_len - b_len + 1
-        };
         let div = self.add_virtual_biguint_target(div_num_limbs);
         let rem = self.add_virtual_biguint_target(b_len);
 
@@ -261,8 +271,39 @@ impl<F: RichField + Extendable<D>, const D: usize> CircuitBuilderBiguint<F, D>
         (div, rem)
     }
 
+    fn div_rem_biguint(
+        &mut self,
+        a: &BigUintTarget,
+        b: &BigUintTarget,
+    ) -> (BigUintTarget, BigUintTarget) {
+        let a_len = a.limbs.len();
+        let (div, rem) = self._div_rem_biguint(a, b, a_len);
+        (div, rem)
+    }
+
+    fn div_rem_biguint_unsafe(
+        &mut self,
+        a: &BigUintTarget,
+        b: &BigUintTarget,
+    ) -> (BigUintTarget, BigUintTarget) {
+        let a_len = a.limbs.len();
+        let b_len = b.limbs.len();
+        let div_num_limbs = if b_len > a_len + 1 {
+            0
+        } else {
+            a_len - b_len + 1
+        };
+        let (div, rem) = self._div_rem_biguint(a, b, div_num_limbs);
+        (div, rem)
+    }
+
     fn div_biguint(&mut self, a: &BigUintTarget, b: &BigUintTarget) -> BigUintTarget {
         let (div, _rem) = self.div_rem_biguint(a, b);
+        div
+    }
+
+    fn div_biguint_unsafe(&mut self, a: &BigUintTarget, b: &BigUintTarget) -> BigUintTarget {
+        let (div, _rem) = self.div_rem_biguint_unsafe(a, b);
         div
     }
 
