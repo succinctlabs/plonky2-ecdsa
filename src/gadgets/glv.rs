@@ -1,4 +1,6 @@
+use alloc::string::{String, ToString};
 use alloc::vec::Vec;
+use plonky2::util::serialization::{Buffer, IoResult, Read, Write};
 use core::marker::PhantomData;
 
 use plonky2::field::extension::Extendable;
@@ -17,6 +19,7 @@ use crate::gadgets::biguint::{GeneratedValuesBigUint, WitnessBigUint};
 use crate::gadgets::curve::{AffinePointTarget, CircuitBuilderCurve};
 use crate::gadgets::curve_msm::curve_msm_circuit;
 use crate::gadgets::nonnative::{CircuitBuilderNonNative, NonNativeTarget};
+use crate::serialization::{ReadNonNativeTarget, WriteNonNativeTarget};
 
 pub trait CircuitBuilderGlv<F: RichField + Extendable<D>, const D: usize> {
     fn secp256k1_glv_beta(&mut self) -> NonNativeTarget<Secp256K1Base>;
@@ -112,6 +115,27 @@ struct GLVDecompositionGenerator<F: RichField + Extendable<D>, const D: usize> {
 impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F>
     for GLVDecompositionGenerator<F, D>
 {
+    fn id(&self) -> String {
+        "NonNativeSubtractionGenerator".to_string()
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> IoResult<()> {
+        dst.write_target_nonnative(self.k.clone())?;
+        dst.write_target_nonnative(self.k1.clone())?;
+        dst.write_target_nonnative(self.k2.clone())?;
+        dst.write_target_bool(self.k1_neg)?;
+        dst.write_target_bool(self.k2_neg)
+    }
+
+    fn deserialize(src: &mut Buffer) -> IoResult<Self> {
+        let k = src.read_target_nonnative()?;
+        let k1 = src.read_target_nonnative()?;
+        let k2 = src.read_target_nonnative()?;
+        let k1_neg = src.read_target_bool()?;
+        let k2_neg = src.read_target_bool()?;
+        Ok(Self { k, k1, k2, k1_neg, k2_neg, _phantom: PhantomData })
+    }
+
     fn dependencies(&self) -> Vec<Target> {
         self.k.value.limbs.iter().map(|l| l.0).collect()
     }

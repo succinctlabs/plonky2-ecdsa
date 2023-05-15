@@ -1,5 +1,7 @@
+use alloc::string::{String, ToString};
 use alloc::vec;
 use alloc::vec::Vec;
+use plonky2::util::serialization::{Buffer, IoResult};
 use core::marker::PhantomData;
 
 use num::{BigUint, Integer, Zero};
@@ -13,6 +15,8 @@ use plonky2::plonk::circuit_builder::CircuitBuilder;
 use plonky2_u32::gadgets::arithmetic_u32::{CircuitBuilderU32, U32Target};
 use plonky2_u32::gadgets::multiple_comparison::list_le_u32_circuit;
 use plonky2_u32::witness::{GeneratedValuesU32, WitnessU32};
+
+use crate::serialization::{ReadBigUint, WriteBigUint};
 
 #[derive(Clone, Debug)]
 pub struct BigUintTarget {
@@ -325,6 +329,25 @@ struct BigUintDivRemGenerator<F: RichField + Extendable<D>, const D: usize> {
 impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F>
     for BigUintDivRemGenerator<F, D>
 {
+    fn id(&self) -> String {
+        "BigUintDivRemGenerator".to_string()
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> IoResult<()> {
+        dst.write_target_biguint(self.a.clone())?;
+        dst.write_target_biguint(self.b.clone())?;
+        dst.write_target_biguint(self.div.clone())?;
+        dst.write_target_biguint(self.rem.clone())
+    }
+
+    fn deserialize(src: &mut Buffer) -> IoResult<Self> {
+        let a = src.read_target_biguint()?;
+        let b = src.read_target_biguint()?;
+        let div = src.read_target_biguint()?;
+        let rem = src.read_target_biguint()?;
+        Ok(Self { a, b, div, rem, _phantom: PhantomData })
+    }
+
     fn dependencies(&self) -> Vec<Target> {
         self.a
             .limbs
