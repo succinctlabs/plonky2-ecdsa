@@ -116,7 +116,7 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F>
     for GLVDecompositionGenerator<F, D>
 {
     fn id(&self) -> String {
-        "NonNativeSubtractionGenerator".to_string()
+        "GLVDecompositionGenerator".to_string()
     }
 
     fn serialize(&self, dst: &mut Vec<u8>) -> IoResult<()> {
