@@ -18,7 +18,7 @@ use plonky2_u32::witness::{GeneratedValuesU32, WitnessU32};
 
 use crate::serialization::{ReadBigUint, WriteBigUint};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct BigUintTarget {
     pub limbs: Vec<U32Target>,
 }

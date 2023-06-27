@@ -23,7 +23,7 @@ use crate::gadgets::biguint::{
 };
 use crate::serialization::{ReadBigUint, ReadNonNativeTarget, WriteBigUint, WriteNonNativeTarget};
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct NonNativeTarget<FF: Field> {
     pub value: BigUintTarget,
     pub _phantom: PhantomData<FF>,
