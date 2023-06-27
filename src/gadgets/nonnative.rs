@@ -449,8 +449,8 @@ impl<F: RichField + Extendable<D>, const D: usize> CircuitBuilderNonNative<F, D>
     }
 }
 
-#[derive(Debug)]
-struct NonNativeAdditionGenerator<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> {
+#[derive(Debug, Default)]
+pub struct NonNativeAdditionGenerator<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> {
     a: NonNativeTarget<FF>,
     b: NonNativeTarget<FF>,
     sum: NonNativeTarget<FF>,
