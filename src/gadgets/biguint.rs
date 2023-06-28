@@ -317,8 +317,8 @@ impl<F: PrimeField> GeneratedValuesBigUint<F> for GeneratedValues<F> {
     }
 }
 
-#[derive(Debug)]
-struct BigUintDivRemGenerator<F: RichField + Extendable<D>, const D: usize> {
+#[derive(Debug, Default)]
+pub struct BigUintDivRemGenerator<F: RichField + Extendable<D>, const D: usize> {
     a: BigUintTarget,
     b: BigUintTarget,
     div: BigUintTarget,
