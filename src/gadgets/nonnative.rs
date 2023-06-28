@@ -509,8 +509,8 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
     }
 }
 
-#[derive(Debug)]
-struct NonNativeMultipleAddsGenerator<F: RichField + Extendable<D>, const D: usize, FF: PrimeField>
+#[derive(Debug, Default)]
+pub struct NonNativeMultipleAddsGenerator<F: RichField + Extendable<D>, const D: usize, FF: PrimeField>
 {
     summands: Vec<NonNativeTarget<FF>>,
     sum: NonNativeTarget<FF>,
@@ -577,8 +577,8 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
     }
 }
 
-#[derive(Debug)]
-struct NonNativeSubtractionGenerator<F: RichField + Extendable<D>, const D: usize, FF: Field> {
+#[derive(Debug, Default)]
+pub struct NonNativeSubtractionGenerator<F: RichField + Extendable<D>, const D: usize, FF: Field> {
     a: NonNativeTarget<FF>,
     b: NonNativeTarget<FF>,
     diff: NonNativeTarget<FF>,
