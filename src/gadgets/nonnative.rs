@@ -484,6 +484,20 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
         out_buffer.set_biguint_target(&self.sum.value, &sum_reduced);
         out_buffer.set_bool_target(self.overflow, overflow);
     }
+
+    fn id(&self) -> String {
+        unimplemented!("NonNativeAdditionGenerator::id()")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("NonNativeAdditionGenerator::serialize()")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("NonNativeAdditionGenerator::deserialize()")
+    }
 }
 
 #[derive(Debug)]
@@ -529,6 +543,20 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
         out_buffer.set_biguint_target(&self.sum.value, &sum_reduced);
         out_buffer.set_u32_target(self.overflow, overflow);
     }
+
+    fn id(&self) -> String {
+        unimplemented!("NonNativeMultipleAddsGenerator::id()")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("NonNativeMultipleAddsGenerator::serialize()")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("NonNativeMultipleAddsGenerator::deserialize()")
+    }
 }
 
 #[derive(Debug)]
@@ -570,6 +598,20 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
         out_buffer.set_biguint_target(&self.diff.value, &diff_biguint);
         out_buffer.set_bool_target(self.overflow, overflow);
     }
+
+    fn id(&self) -> String {
+        unimplemented!("NonNativeSubtractionGenerator::id()")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("NonNativeSubtractionGenerator::serialize()")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("NonNativeSubtractionGenerator::deserialize()")
+    }
 }
 
 #[derive(Debug)]
@@ -609,6 +651,20 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
         out_buffer.set_biguint_target(&self.prod.value, &prod_reduced);
         out_buffer.set_biguint_target(&self.overflow, &overflow_biguint);
     }
+
+    fn id(&self) -> String {
+        unimplemented!("NonNativeMultiplicationGenerator::id()")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("NonNativeMultiplicationGenerator::serialize()")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("NonNativeMultiplicationGenerator::deserialize()")
+    }
 }
 
 #[derive(Debug)]
@@ -638,6 +694,20 @@ impl<F: RichField + Extendable<D>, const D: usize, FF: PrimeField> SimpleGenerat
 
         out_buffer.set_biguint_target(&self.div, &div);
         out_buffer.set_biguint_target(&self.inv, &inv_biguint);
+    }
+
+    fn id(&self) -> String {
+        unimplemented!("NonNativeInverseGenerator::id()")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("NonNativeInverseGenerator::serialize()")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("NonNativeInverseGenerator::deserialize()")
     }
 }
 

@@ -128,6 +128,20 @@ impl<F: RichField + Extendable<D>, const D: usize> SimpleGenerator<F>
         out_buffer.set_bool_target(self.k1_neg, k1_neg);
         out_buffer.set_bool_target(self.k2_neg, k2_neg);
     }
+
+    fn id(&self) -> String {
+        unimplemented!("GLVDecompositionGenerator")
+    }
+
+    fn serialize(&self, dst: &mut Vec<u8>) -> plonky2::util::serialization::IoResult<()> {
+        unimplemented!("GLVDecompositionGenerator")
+    }
+
+    fn deserialize(src: &mut plonky2::util::serialization::Buffer) -> plonky2::util::serialization::IoResult<Self>
+        where
+            Self: Sized {
+        unimplemented!("GLVDecompositionGenerator")
+    }
 }
 
 #[cfg(test)]
